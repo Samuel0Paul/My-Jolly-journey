@@ -35,6 +35,9 @@
 *.out
 *.app
 
+## Build Folder
+**/build/*
+
 
 ### CMake ###
 CMakeCache.txt

@@ -23,8 +23,8 @@ set(ALL_LIBS
 message("INC DIR: \t" ${ALL_INCLUDE_DIR})
 message("ALL LIBS: \t" ${ALL_LIBS})
 
-add_executable(app_01 ./01/main.cpp)
+add_executable(app_01.app ./01/main.cpp)
 
-target_include_directories(app_01 PUBLIC ${ALL_INCLUDE_DIR})
-target_link_libraries(app_01 PUBLIC ${ALL_LIBS} glfw)
+target_include_directories(app_01.app PUBLIC ${ALL_INCLUDE_DIR})
+target_link_libraries(app_01.app PUBLIC ${ALL_LIBS} glfw)
 

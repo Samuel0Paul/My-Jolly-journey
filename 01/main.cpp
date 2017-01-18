@@ -110,9 +110,8 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
-    if (!window)
-    {
-        std::fprintf(stderr, "ERROR: glewInit()\n");
+    if (!window) {
+        std::fprintf(stderr, "ERROR: glfw window init err\n");
         glfwTerminate();
         std::exit(EXIT_FAILURE);
     }
@@ -120,8 +119,9 @@ int main(void)
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
     glewExperimental = GL_TRUE; 
-    if (glewInit() != GLEW_OK)
-    {
+    if (glewInit() != GLEW_OK) {
+        std::fprintf(stderr, "ERROR: glewInit()\n");
+        glfwTerminate();
         std::exit(EXIT_FAILURE);
     }
 
@@ -158,9 +158,7 @@ int main(void)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-
-    while (!glfwWindowShouldClose(window))
-    {
+    while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(shader_program);
@@ -171,6 +169,7 @@ int main(void)
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+    
     glfwDestroyWindow(window);
     glfwTerminate();
     std::exit(EXIT_SUCCESS);

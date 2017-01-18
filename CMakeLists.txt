@@ -4,6 +4,9 @@ project(ogl_playground CXX)
 
 set(CMAKE_CXX_STANDARD 14)
 
+set(exe01 "app_01.app")
+set(exe02 "app_02.app")
+
 find_package(GLEW REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -18,13 +21,17 @@ set(ALL_INCLUDE_DIR
 set(ALL_LIBS 
         ${OPENGL_LIBRARY}
         ${GLEW_LIBRARY}
+        glfw
 )
 
 message("INC DIR: \t" ${ALL_INCLUDE_DIR})
 message("ALL LIBS: \t" ${ALL_LIBS})
 
-add_executable(app_01.app ./01/main.cpp)
+add_executable(${exe01} ./01/main.cpp)
+target_include_directories(${exe01} PUBLIC ${ALL_INCLUDE_DIR})
+target_link_libraries(${exe01} PUBLIC ${ALL_LIBS})
 
-target_include_directories(app_01.app PUBLIC ${ALL_INCLUDE_DIR})
-target_link_libraries(app_01.app PUBLIC ${ALL_LIBS} glfw)
+add_executable(${exe02} ./02/main.cpp)
+target_include_directories(${exe02} PUBLIC ${ALL_INCLUDE_DIR})
+target_link_libraries(${exe02} PUBLIC ${ALL_LIBS})
 

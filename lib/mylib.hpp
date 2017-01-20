@@ -192,6 +192,6 @@ GLuint linkShaderProgram(std::vector<GLuint> shaders)
     return program;
 }
 
-}
+};
 
 #endif

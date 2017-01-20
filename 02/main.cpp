@@ -1,6 +1,6 @@
 // indexed drawing using EBO
 
-#define _NDEBUG
+//#define _NDEBUG
 
 #include "../lib/mylib.hpp"
 
@@ -12,6 +12,7 @@
 #include <memory>
 #include <vector>
 #include <exception>
+#include <utility>
 
 #include <cstdlib>
 #include <cstdio>
@@ -60,7 +61,14 @@ public:
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &EBO);
 
-        GLuint vertex_shader = mylib::compileShader(
+        shader = mylib::Shader({
+            std::make_pair("/home/sam/workspace/cpp/ogl_playground/02/color.vertex.glsl",
+                GL_VERTEX_SHADER),
+            std::make_pair("/home/sam/workspace/cpp/ogl_playground/02/color.fragment.glsl",
+                GL_FRAGMENT_SHADER),
+        });
+
+        /*GLuint vertex_shader = mylib::compileShader(
             "/home/sam/workspace/cpp/ogl_playground/02/color.vertex.glsl",
             GL_VERTEX_SHADER
         );
@@ -73,7 +81,7 @@ public:
                 vertex_shader,
                 frag_shader,
             }
-        );
+        );*/
         
         glBindVertexArray(VAO);
             // copy vertices into ogl buffer
@@ -90,8 +98,8 @@ public:
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-        glUseProgram(shader_program);
-        vertexColorLoc = glGetUniformLocation(shader_program, "ourColor");
+        shader.use();
+        vertexColorLoc = glGetUniformLocation(shader.program, "ourColor");
     #ifndef _NDEBUG
         std::clog << "vertexColorLoc: (uniform ourColor) " << vertexColorLoc << std::endl;
     #endif
@@ -99,7 +107,7 @@ public:
 
     void update() override
     {
-        glUseProgram(shader_program);
+        shader.use();
         timeValue   = glfwGetTime();
         greenVal    = (std::sin(timeValue) / 2) + 0.5;
         glUniform4f(vertexColorLoc, 0.5f, greenVal, 0.25f, 1.0f);
@@ -108,7 +116,7 @@ public:
     void render(double time) override
     {
         glClear(GL_COLOR_BUFFER_BIT);
-        glUseProgram(shader_program);
+        shader.use();
         glBindVertexArray(VAO);
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -117,9 +125,10 @@ public:
 
 protected:
     GLuint VBO{0}, VAO{0}, EBO{0};
-    GLuint shader_program{0}, vertexColorLoc{0};
+    GLuint vertexColorLoc{0};
     GLfloat timeValue{0};
     GLfloat greenVal{0};
+    mylib::Shader shader;
 };
 
 int main(void)

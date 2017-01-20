@@ -18,6 +18,9 @@
 #include <cstdio>
 
 
+#include "./shader.hpp"
+
+
 namespace mylib
 {
 

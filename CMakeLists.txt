@@ -7,20 +7,26 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(exe01 "app_01.app")
 set(exe02 "app_02.app")
+set(exe03 "app_03.app")
 
 find_package(GLEW REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(glm REQUIRED)
 
+set(SOIL_INCLUDE_DIR "/usr/include/SOIL")
+set(SOIL_LIBRARY "SOIL")
+
 set(ALL_INCLUDE_DIR 
         ${OPENGL_INCLUDE_DIR}
         ${GLFW_INCLUDE_DIR}
         ${GLEW_INCLUDE_DIR}
+        ${SOIL_INCLUDE_DIR}
 )
 
 set(ALL_LIBS 
         ${OPENGL_LIBRARY}
+        ${SOIL_LIBRARY}
         #${GLEW_LIBRARY}
         glfw
         epoxy
@@ -37,3 +43,6 @@ add_executable(${exe02} ./02/main.cpp)
 target_include_directories(${exe02} PUBLIC ${ALL_INCLUDE_DIR})
 target_link_libraries(${exe02} PUBLIC ${ALL_LIBS})
 
+add_executable(${exe03} ./03/main.cpp)
+target_include_directories(${exe03} PUBLIC ${ALL_INCLUDE_DIR})
+target_link_libraries(${exe03} PUBLIC ${ALL_LIBS})

@@ -1,7 +1,10 @@
 #ifndef __MYLIB_HPP__
 #define __MYLIB_HPP__
 
-#include <GL/glew.h>
+#include <epoxy/gl.h>
+#include <epoxy/glx.h>
+#include <epoxy/egl.h>
+
 #include <GLFW/glfw3.h>
 
 #include <iostream>
@@ -17,6 +20,110 @@
 
 namespace mylib
 {
+
+class Window
+{
+public:
+    unsigned int width{800}, height{600};
+    std::string title{"Window"};
+    bool fullscreen{false};
+
+    Window()
+    {
+        glfwSetErrorCallback(mylib::Window::error_callback);
+    }
+
+    Window(unsigned int width, unsigned int height, const char* title):
+        width(width), height(height), title(title)
+    {
+        Window();
+    }
+
+    ~Window()
+    {
+        glfwDestroyWindow(_windowHndl);
+    }
+
+    void init()
+    {
+        if (!glfwInit()) {
+            std::cerr << "ERROR: (" << __PRETTY_FUNCTION__ << ") glfwInit() returned error"
+                      << std::endl;
+            std::exit(EXIT_FAILURE);
+        }
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+        _windowHndl = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+        if (!_windowHndl) {
+            std::cerr << "ERROR: (" << __PRETTY_FUNCTION__ << ") glfwCreateWindow() return NULL"
+                      << std::endl;
+            std::exit(EXIT_FAILURE);
+        }
+        glfwSetKeyCallback(_windowHndl, mylib::Window::key_callback);
+        glfwMakeContextCurrent(_windowHndl);
+    }
+
+    GLFWwindow* getWindow()
+    {
+        return this->_windowHndl;
+    }
+
+    static void error_callback(int error, const char *description)
+    {
+        fprintf(stderr, "Error: CODE: 0x%x , %s\n", error, description);
+    }
+
+    static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+    {
+        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+            glfwSetWindowShouldClose(window, GLFW_TRUE);
+    }
+
+protected:
+
+private:
+    GLFWwindow *_windowHndl{nullptr};
+
+};
+
+class App
+{
+public:
+    mylib::Window window;
+
+    App(mylib::Window&& window): window(window)
+    {
+    }
+    App() = delete;
+
+    void run(App& app)
+    {
+        window.init();
+        app.startup();
+
+        while (!glfwWindowShouldClose(window.getWindow())) {
+            app.update();
+            app.render(glfwGetTime());
+
+            glfwSwapBuffers(window.getWindow());
+            glfwPollEvents();
+        }
+
+        app.shutdown();
+    }
+
+    virtual void startup() {}
+    virtual void update() {}
+    virtual void render(double) {}
+    virtual void shutdown() {}
+
+protected:
+
+private:
+
+};
 
 GLuint compileShader(const char *filepath, const GLenum &SHADER_TYPE)
 {

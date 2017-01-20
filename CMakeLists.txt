@@ -20,8 +20,9 @@ set(ALL_INCLUDE_DIR
 
 set(ALL_LIBS 
         ${OPENGL_LIBRARY}
-        ${GLEW_LIBRARY}
+        #${GLEW_LIBRARY}
         glfw
+        epoxy
 )
 
 message("INC DIR: \t" ${ALL_INCLUDE_DIR})
@@ -29,7 +30,7 @@ message("ALL LIBS: \t" ${ALL_LIBS})
 
 add_executable(${exe01} ./01/main.cpp)
 target_include_directories(${exe01} PUBLIC ${ALL_INCLUDE_DIR})
-target_link_libraries(${exe01} PUBLIC ${ALL_LIBS})
+target_link_libraries(${exe01} PUBLIC ${ALL_LIBS} ${GLEW_LIBRARY})
 
 add_executable(${exe02} ./02/main.cpp)
 target_include_directories(${exe02} PUBLIC ${ALL_INCLUDE_DIR})

@@ -1,5 +1,7 @@
 // indexed drawing using EBO
 
+#define _NDEBUG
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -73,11 +75,11 @@ int main(void)
     glGenBuffers(1, &EBO);
 
     GLuint vertex_shader = mylib::compileShader(
-        "/home/sam/workspace/cpp/ogl_playground/01/simple.vertex.glsl",
+        "/home/sam/workspace/cpp/ogl_playground/02/color.vertex.glsl",
         GL_VERTEX_SHADER
     );
     GLuint frag_shader = mylib::compileShader(
-        "/home/sam/workspace/cpp/ogl_playground/01/simple.fragment.glsl",
+        "/home/sam/workspace/cpp/ogl_playground/02/color.fragment.glsl",
         GL_FRAGMENT_SHADER
     );
     GLuint shader_program = mylib::linkShaderProgram(
@@ -98,15 +100,15 @@ int main(void)
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
         glEnableVertexAttribArray(0);
     // reset bindings
+    glBindVertexArray(0);   //!NOTE unbind VAO first to make it stop recording unbinds
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
 
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(shader_program);
         glBindVertexArray(VAO);
-        //glDrawArrays(GL_TRIANGLES, 0, 3);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 

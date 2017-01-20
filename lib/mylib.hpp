@@ -60,7 +60,8 @@ public:
 
         _windowHndl = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
         if (!_windowHndl) {
-            std::cerr << "ERROR: (" << __PRETTY_FUNCTION__ << ") glfwCreateWindow() return NULL"
+            std::cerr << "ERROR: (" << __PRETTY_FUNCTION__
+                      << ") glfwCreateWindow() returned NULL"
                       << std::endl;
             std::exit(EXIT_FAILURE);
         }

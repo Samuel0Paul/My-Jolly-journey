@@ -105,7 +105,7 @@ public:
     #endif
     }
 
-    void update() override
+    void update(double time) override
     {
         shader.use();
         timeValue   = glfwGetTime();
@@ -113,7 +113,7 @@ public:
         glUniform4f(vertexColorLoc, 0.5f, greenVal, 0.25f, 1.0f);
     }
 
-    void render(double time) override
+    void render() override
     {
         glClear(GL_COLOR_BUFFER_BIT);
         shader.use();

@@ -212,12 +212,12 @@ public:
         glDeleteBuffers(1, &EBO);
     }
 
-    void update() override
+    void update(double time) override
     {
         
     }
 
-    void render(double app_time) override
+    void render() override
     {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);

@@ -108,8 +108,8 @@ public:
         app.startup();
 
         while (!glfwWindowShouldClose(window.getWindow())) {
-            app.update();
-            app.render(glfwGetTime());
+            app.update(glfwGetTime());
+            app.render();
 
             glfwSwapBuffers(window.getWindow());
             glfwPollEvents();
@@ -119,8 +119,8 @@ public:
     }
 
     virtual void startup() {}
-    virtual void update() {}
-    virtual void render(double) {}
+    virtual void update(double) {}
+    virtual void render() {}
     virtual void shutdown() {}
 
 protected:

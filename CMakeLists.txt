@@ -11,6 +11,7 @@ set(exe01 "app_01.app")
 set(exe02 "app_02.app")
 set(exe03 "app_03.app")
 set(exe04 "app_04.app")
+set(exe05 "app_05.app")
 
 find_package(GLEW REQUIRED)
 find_package(glfw3 REQUIRED)
@@ -56,6 +57,10 @@ target_link_libraries(${exe03} PUBLIC ${ALL_LIBS})
 add_executable(${exe04} ./04/main.cpp)
 target_include_directories(${exe04} PUBLIC ${ALL_INCLUDE_DIR})
 target_link_libraries(${exe04} PUBLIC ${ALL_LIBS})
+
+add_executable(${exe05} ./05/main.cpp)
+target_include_directories(${exe05} PUBLIC ${ALL_INCLUDE_DIR})
+target_link_libraries(${exe05} PUBLIC ${ALL_LIBS})
 
 # TESTS 
 find_package(Boost)

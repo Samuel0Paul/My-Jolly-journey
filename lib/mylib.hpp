@@ -123,6 +123,16 @@ public:
     virtual void render() {}
     virtual void shutdown() {}
 
+    unsigned int getWindowWidth()
+    {
+        return static_cast<unsigned int>(this->window.width);
+    }
+
+    unsigned int getWindowHeight()
+    {
+        return static_cast<unsigned int>(this->window.height);
+    }
+
 protected:
 
 private:

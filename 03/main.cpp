@@ -26,6 +26,10 @@
 *   minimaps:   GL_TEXTURE_(MIN/MAG)_FILTER =>  GL_(LINEAR/NEAREST)_MIPMAP_(LINEAR/NEAREST)
                                     mipmap selection ^^^        filtering btw mipmaps ^^^
 *
+* ######################################################
+*   ## Texture Units - using multiple textures
+*
+*   glActiveTexture(GL_TEXTURE(0/x)) // activate tex unit before binding texture
 **/
 
 GLfloat vertices[] = {
@@ -106,8 +110,9 @@ public:
 
         glBindVertexArray(0);   // unbind VAO
 
-        glGenTextures(1, &texture);
-        glBindTexture(GL_TEXTURE_2D, texture);
+        glGenTextures(2, texture);
+
+        glBindTexture(GL_TEXTURE_2D, texture[0]);
         // wrap
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -135,6 +140,22 @@ public:
         SOIL_free_image_data(image);
         glBindTexture(GL_TEXTURE_2D, 0);
 
+        // texture 02
+        glBindTexture(GL_TEXTURE_2D, texture[1]);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        image = SOIL_load_image(
+            "/home/sam/workspace/cpp/ogl_playground/03/assets/jesus.png",
+            &width, &height, 0, SOIL_LOAD_RGB
+        );
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, 
+            GL_RGB, GL_UNSIGNED_BYTE, image);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        SOIL_free_image_data(image);
+        glBindTexture(GL_TEXTURE_2D, 0);
+
     }
 
     ~myApp()
@@ -154,9 +175,14 @@ public:
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glBindTexture(GL_TEXTURE_2D, texture);
-
         shader.use();
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture[0]);
+        glUniform1i(glGetUniformLocation(shader.program, "ourTexture1"), 0);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, texture[1]);
+        glUniform1i(glGetUniformLocation(shader.program, "ourTexture2"), 1);
         
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -164,7 +190,7 @@ public:
     }
 
 protected:
-    GLuint texture{0}, VBO{0}, EBO{0}, VAO{0};
+    GLuint texture[2]{0}, VBO{0}, EBO{0}, VAO{0};
     mylib::Shader shader;
 
 private:

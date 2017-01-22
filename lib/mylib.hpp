@@ -66,6 +66,7 @@ public:
             std::exit(EXIT_FAILURE);
         }
         glfwSetKeyCallback(_windowHndl, mylib::Window::key_callback);
+        glfwSetInputMode(_windowHndl, GLFW_STICKY_KEYS, 1);
         glfwMakeContextCurrent(_windowHndl);
     }
 
@@ -81,8 +82,11 @@ public:
 
     static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
     {
-        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+            // clear ESC key pressed event (stickykeyconfigred)
+            glfwGetKey(window, GLFW_KEY_ESCAPE);
             glfwSetWindowShouldClose(window, GLFW_TRUE);
+        }
     }
 
 protected:

@@ -15,6 +15,6 @@ void main()
     color = mix(
         texture(ourTexture1, texCoord),
         texture(ourTexture2, texCoord),
-        0.2                                 // 0.0 - arg[0], 1.0 - arg[1]
+        0.3                                 // 0.0 - arg[0], 1.0 - arg[1]
     );
 }

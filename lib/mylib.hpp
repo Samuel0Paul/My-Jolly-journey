@@ -106,20 +106,42 @@ public:
     }
     App() = delete;
 
-    void run(App& app)
+    static void run(App& app)
     {
-        window.init();
+        app.window.init();
         app.startup();
 
-        while (!glfwWindowShouldClose(window.getWindow())) {
+        while (!glfwWindowShouldClose(app.window.getWindow())) {
             app.update(glfwGetTime());
             app.render();
 
-            glfwSwapBuffers(window.getWindow());
+            glfwSwapBuffers(app.window.getWindow());
             glfwPollEvents();
         }
 
         app.shutdown();
+    }
+
+    static void threaded_run(void* app_addr = nullptr)
+    {
+        if (app_addr == nullptr) {
+            std::cerr << "add_addr = nullptr" << std::endl;
+            std::exit(EXIT_FAILURE);
+        }
+
+        mylib::App *app = reinterpret_cast<mylib::App*>(app_addr);
+        app->window.init();
+        app->startup();
+
+        while (!glfwWindowShouldClose(app->window.getWindow())) {
+            app->update(glfwGetTime());
+            app->render();
+
+            glfwSwapBuffers(app->window.getWindow());
+            glfwPollEvents();
+        }
+
+        app->shutdown();
     }
 
     virtual void startup() {}

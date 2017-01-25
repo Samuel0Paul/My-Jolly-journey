@@ -25,30 +25,30 @@
 
 *   V_clip = (M_projection * M_view * M_model) * V_local
 
-    OpenGL: a formal specification of a graphics API that defines the layout and
+    * OpenGL: a formal specification of a graphics API that defines the layout and
             output of each function.
 
-    GLEW: an extension loading library that loads and sets all OpenGL’s function pointers
+    * GLEW: an extension loading library that loads and sets all OpenGL’s function pointers
             for us so we can use all (modern) OpenGL’s functions.
 
-    Viewport: the window where we render to.
+    * Viewport: the window where we render to.
             Graphics Pipeline: the entire process a vertex has to walk through before ending up
             as a pixel on your screen.
 
-    Shader: a small program that runs on the graphics card. Several stages of the graphics
+    * Shader: a small program that runs on the graphics card. Several stages of the graphics
             pipeline can use user-made shaders to replace existing functionality.
 
-    Vertex: a collection of data that represent a single point.
+    * Vertex: a collection of data that represent a single point.
 
-    Normalized Device Coordinates: the coordinate system your vertices end up in
+    * Normalized Device Coordinates: the coordinate system your vertices end up in
             after clipping and perspective division is performed on clip coordinates. 
             All vertex positions in NDC between -1.0 and 1.0 will not be discarded and
             end up visible.
 
-    Vertex Buffer Object: a buffer object that allocates memory and stores all the vertex
+    * Vertex Buffer Object: a buffer object that allocates memory and stores all the vertex
             data for the graphics card to use.
             
-    Vertex Array Object: stores buffer and vertex attribute state information.
+    * Vertex Array Object: stores buffer and vertex attribute state information.
 
 */
 

@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(ogl_playground CXX)
 
+
 enable_testing()
 
 set(CMAKE_CXX_STANDARD 14)
@@ -13,6 +14,11 @@ set(exe03 "app_03.app")
 set(exe04 "app_04.app")
 set(exe05 "app_05.app")
 set(exe06 "app_06.app")
+set(exe07 "app_07.app")
+set(exe08 "app_08.app")
+
+find_package(PkgConfig)
+pkg_check_modules(GTKMM gtkmm-3.0)
 
 find_package(GLEW REQUIRED)
 find_package(glfw3 REQUIRED)
@@ -29,6 +35,8 @@ set(ALL_INCLUDE_DIR
         ${GLEW_INCLUDE_DIR}
         ${SOIL_INCLUDE_DIR}
         ${GLM_INCLUDE_DIRS}
+
+        ${GTKMM_INCLUDE_DIRS}
 )
 
 set(ALL_LIBS 
@@ -37,10 +45,16 @@ set(ALL_LIBS
         #${GLEW_LIBRARY}
         glfw
         epoxy
+
+        ${GTKMM_LIBRARIES}
 )
 
-message("INC DIR: \t" ${ALL_INCLUDE_DIR})
-message("ALL LIBS: \t" ${ALL_LIBS})
+link_directories(
+        ${GTKMM_LIBRARY_DIRS}
+)
+
+message(STATUS "INC DIR: \t" ${ALL_INCLUDE_DIR})
+message(STATUS "ALL LIBS: \t" ${ALL_LIBS})
 
 # EXECUTABLES
 add_executable(${exe01} ./01/main.cpp)
@@ -66,6 +80,16 @@ target_link_libraries(${exe05} PUBLIC ${ALL_LIBS})
 add_executable(${exe06} ./06/main.cpp)
 target_include_directories(${exe06} PUBLIC ${ALL_INCLUDE_DIR})
 target_link_libraries(${exe06} PUBLIC ${ALL_LIBS})
+
+add_executable(${exe07} ./07/main.cpp)
+target_include_directories(${exe07} PUBLIC ${ALL_INCLUDE_DIR})
+target_link_libraries(${exe07} PUBLIC ${ALL_LIBS})
+
+add_executable(${exe08} ./08/main.cpp)
+target_include_directories(${exe08} PUBLIC ${ALL_INCLUDE_DIR})
+target_link_libraries(${exe08} PUBLIC ${ALL_LIBS})
+
+
 
 # TESTS 
 find_package(Boost)

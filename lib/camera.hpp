@@ -1,6 +1,7 @@
 #ifndef __MYLIB_CAMERA_HPP__
 #define __MYLIB_CAMERA_HPP__
 
+#include <iostream>
 #include <vector>
 #include <cmath>
 
@@ -55,14 +56,14 @@ class Camera
         GLfloat posX,
         GLfloat posY,
         GLfloat posZ,
-        GLfloat upX,
-        GLfloat upY,
-        GLfloat upZ,
-        GLfloat yaw,
-        GLfloat pitch) : front(glm::vec3(0.0f, 0.0f, -1.0f)),
-                         movementSpeed(SPEED),
-                         mouseSensitivity(SENSITIVITY),
-                         zoom(ZOOM)
+        GLfloat upX = 0.0f,
+        GLfloat upY = -1.0f,
+        GLfloat upZ = 0.0f,
+        GLfloat yaw = YAW,
+        GLfloat pitch = PITCH) : front(glm::vec3(0.0f, 0.0f, -1.0f)),
+                                 movementSpeed(SPEED),
+                                 mouseSensitivity(SENSITIVITY),
+                                 zoom(ZOOM)
     {
         this->position = glm::vec3(posX, posY, posZ);
         this->worldUp = glm::vec3(upX, upY, upZ);
@@ -71,7 +72,7 @@ class Camera
         this->updateCameraVectors();
     }
 
-    glm::mat4 GetViewMatrix()
+    glm::mat4 getViewMatrix()
     {
         return glm::lookAt(
             this->position,
@@ -82,7 +83,7 @@ class Camera
     // Processes input received from any keyboard-like input system.
     // Accepts input parameter in the form of camera defined ENUM
     //  (to abstract it from windowing systems)
-    void ProcessKeyboard(Camera_Movement direction, GLfloat deltaTime)
+    virtual void processKeyboard(Camera_Movement direction, GLfloat deltaTime)
     {
         GLfloat velocity = this->movementSpeed * deltaTime;
         if (direction == FORWARD)
@@ -97,7 +98,7 @@ class Camera
 
     // Processes input received from a mouse input system.
     // Expects the offset value in both the x and y direction.
-    void ProcessMouseMovement(GLfloat xoffset, GLfloat yoffset, GLboolean constrainPitch = true)
+    void processMouseMovement(GLfloat xoffset, GLfloat yoffset, GLboolean constrainPitch = true)
     {
         xoffset *= this->mouseSensitivity;
         yoffset *= this->mouseSensitivity;
@@ -119,7 +120,7 @@ class Camera
     }
 
     // Processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
-    void ProcessMouseScroll(GLfloat yoffset)
+    void processMouseScroll(GLfloat yoffset)
     {
         if (this->zoom >= 1.0f && this->zoom <= 45.0f)
             this->zoom -= yoffset;
@@ -141,6 +142,37 @@ class Camera
         this->front = glm::normalize(front);
         this->right = glm::normalize(glm::cross(this->front, this->worldUp));
         this->up = glm::normalize(glm::cross(this->right, this->front));
+    }
+};
+
+class FPSCamera : public Camera
+{
+  public:
+    FPSCamera(
+        glm::vec3 position = glm::vec3(0.f, 0.f, 0.f),
+        glm::vec3 up = glm::vec3(0.f, 1.f, 0.f),
+        GLfloat yaw = YAW,
+        GLfloat pitch = PITCH) : Camera(position, up, yaw, pitch)
+    {
+    }
+
+    FPSCamera(
+        GLfloat posX,
+        GLfloat posY,
+        GLfloat posZ,
+        GLfloat upX = 0.0f,
+        GLfloat upY = -1.0f,
+        GLfloat upZ = 0.0f,
+        GLfloat yaw = YAW,
+        GLfloat pitch = PITCH) : Camera(posX, posY, posZ, upX, upY, upZ, yaw, pitch)
+    {
+    }
+
+    virtual void processKeyboard(Camera_Movement direction, GLfloat deltaTime) override
+    {
+        auto y = this->position.y;
+        Camera::processKeyboard(direction, deltaTime);
+        this->position.y = y;
     }
 };
 

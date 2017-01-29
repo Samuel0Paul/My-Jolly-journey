@@ -2,5 +2,9 @@
 {
     "clang.cxxflags": ["-std=c++1z"],
     "editor.renderIndentGuides": true,
-    "window.showFullPath": true
+    "window.showFullPath": true,
+    "files.associations": {
+        "*h*h*harray": "cpp",
+        "array": "cpp"
+    }
 }

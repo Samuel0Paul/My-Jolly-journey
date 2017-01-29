@@ -23,7 +23,7 @@
 /*
 *   ## colours baby!
 
-    ### color off a toy
+    ### color of a toy
     ```
     vec3 lightColor     = vec3(1.0, 1.0, 1.0);
     vec3 toyColor       = vec3(1.0, 0.5, 0.31);

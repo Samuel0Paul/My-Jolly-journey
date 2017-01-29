@@ -16,6 +16,7 @@ set(exe05 "app_05.app")
 set(exe06 "app_06.app")
 set(exe07 "app_07.app")
 set(exe08 "app_08.app")
+set(exeUnderstaningCamera "app_understandingCamera.app")
 
 find_package(PkgConfig)
 pkg_check_modules(GTKMM gtkmm-3.0)
@@ -88,6 +89,10 @@ target_link_libraries(${exe07} PUBLIC ${ALL_LIBS})
 add_executable(${exe08} ./08/main.cpp)
 target_include_directories(${exe08} PUBLIC ${ALL_INCLUDE_DIR})
 target_link_libraries(${exe08} PUBLIC ${ALL_LIBS})
+
+add_executable(${exeUnderstaningCamera} ./understanding_camera/main.cpp)
+target_include_directories(${exeUnderstaningCamera} PUBLIC ${ALL_INCLUDE_DIR})
+target_link_libraries(${exeUnderstaningCamera} PUBLIC ${ALL_LIBS})
 
 
 

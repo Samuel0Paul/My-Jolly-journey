@@ -1,6 +1,8 @@
 #ifndef __MYLIB_CAMERA_HPP__
 #define __MYLIB_CAMERA_HPP__
 
+#include "./mylib.hpp"
+
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -24,7 +26,7 @@ enum Camera_Movement
 const GLfloat YAW = -90.0f;
 const GLfloat PITCH = 0.0f;
 const GLfloat SPEED = 3.0f;
-const GLfloat SENSITIVITY = 0.25f;
+const GLfloat SENSITIVITY = 0.05f;
 const GLfloat ZOOM = 45.0f;
 
 // abstract Camera class
@@ -98,12 +100,13 @@ class Camera
 
     // Processes input received from a mouse input system.
     // Expects the offset value in both the x and y direction.
-    void processMouseMovement(GLfloat xoffset, GLfloat yoffset, GLboolean constrainPitch = true)
+    virtual void processMouseMovement(GLfloat xoffset, GLfloat yoffset, GLboolean constrainPitch = true)
     {
         xoffset *= this->mouseSensitivity;
         yoffset *= this->mouseSensitivity;
 
-        this->yaw += xoffset;
+        //this->yaw += xoffset;
+        this->yaw = std::fmod((this->yaw + xoffset), (GLfloat)360.0f);
         this->pitch += yoffset;
 
         // Make sure that when pitch is out of bounds, screen doesn't get flipped
@@ -120,7 +123,7 @@ class Camera
     }
 
     // Processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
-    void processMouseScroll(GLfloat yoffset)
+    virtual void processMouseScroll(GLfloat yoffset)
     {
         if (this->zoom >= 1.0f && this->zoom <= 45.0f)
             this->zoom -= yoffset;
@@ -174,6 +177,99 @@ class FPSCamera : public Camera
         Camera::processKeyboard(direction, deltaTime);
         this->position.y = y;
     }
+};
+
+class CameraController
+{
+  public:
+    Camera *camera;
+
+    double xpos{0}, ypos{0}, lastFrameTime{0}, deltaTime{0};
+    volatile GLfloat lastX{0}, lastY{0}, xoffset{0}, yoffset{0};
+
+    CameraController(
+        Camera *camera = nullptr,
+        mylib::Window *window = nullptr) : camera(std::move(camera)),
+                                           window(window)
+    {
+        std::cout << "construct" << std::endl;
+        if (window != nullptr)
+        {
+            // for keyboard
+            lastFrameTime = glfwGetTime();
+
+            // for mouse
+            glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            glfwSetCursorPos(window->getWindow(), window->width, window->height);
+            glfwGetCursorPos(window->getWindow(), &xpos, &ypos);
+            lastX = static_cast<GLfloat>(xpos);
+            lastY = static_cast<GLfloat>(ypos);
+        }
+    }
+
+    static void update(CameraController& cc, double time)
+    {
+        cc.updateKeyboard(time);
+        cc.updateMousePosition(time);
+    }
+
+    virtual void __attribute__((optimize("O0"))) updateKeyboard(double time)
+    {
+        if (window != nullptr)
+        {
+            this->deltaTime = time - lastFrameTime;
+            std::clog << "delta: " << deltaTime << "\tLFT: " << lastFrameTime
+                      << std::endl;
+            this->lastFrameTime = time;
+
+            // W - key press
+            if (glfwGetKey(window->getWindow(), GLFW_KEY_W) == GLFW_PRESS)
+            {
+                camera->processKeyboard(mylib::FORWARD, deltaTime);
+            }
+            // S - key press
+            if (glfwGetKey(window->getWindow(), GLFW_KEY_S) == GLFW_PRESS)
+            {
+                camera->processKeyboard(mylib::BACKWARD, deltaTime);
+            }
+            // A - key press
+            if (glfwGetKey(window->getWindow(), GLFW_KEY_A) == GLFW_PRESS)
+            {
+                camera->processKeyboard(mylib::LEFT, deltaTime);
+            }
+            // D - key press
+            if (glfwGetKey(window->getWindow(), GLFW_KEY_D) == GLFW_PRESS)
+            {
+                camera->processKeyboard(mylib::RIGHT, deltaTime);
+            }
+        }
+    }
+
+    virtual void __attribute__((optimize("O0"))) updateMousePosition(double time)
+    {
+        if (window != nullptr)
+        {
+            std::cout << "BEFORE\t\t" << this->xoffset << ", " << this->yoffset
+                      << "\tlast: (" << this->lastX << ", " << this->lastY << ")"
+                      << "\tpos: (" << this->xpos << ", " << this->ypos << ")" << std::endl;
+            glfwGetCursorPos(window->getWindow(), &this->xpos, &this->ypos);
+            this->xoffset = static_cast<GLfloat>(this->xpos - this->lastX);
+            // reversed y cord, botton to top
+            this->yoffset = static_cast<GLfloat>(this->lastY - this->ypos);
+
+            std::cout << this->xoffset << ", " << this->yoffset
+                      << "\tlast: (" << this->lastX << ", " << this->lastY << ")"
+                      << "\tpos: (" << this->xpos << ", " << this->ypos << ")" << std::endl;
+            this->lastX = static_cast<GLfloat>(this->xpos);
+            this->lastY = static_cast<GLfloat>(this->ypos);
+            camera->processMouseMovement(this->xoffset, this->yoffset);
+        }
+    }
+
+  protected:
+    mylib::Window *window{nullptr};
+
+  private:
 };
 
 } // namespace mylib

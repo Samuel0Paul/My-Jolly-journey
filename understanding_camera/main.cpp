@@ -2,8 +2,6 @@
 *   just a playground to understand my camera hehehe
 */
 
-#define _NDEBUG
-
 #include "../lib/mylib.hpp"
 #include "../lib/camera.hpp"
 
@@ -22,6 +20,8 @@
 #include <vector>
 #include <cstdio>
 #include <cstdlib>
+
+#undef _NDEBUG
 
 GLfloat vertices_box[] = {
     0.250000f, -0.250000f, -0.250000f,  // 0,
@@ -96,8 +96,8 @@ class myAppUsingCameraClass : public mylib::App
         lightColorLoc = glGetUniformLocation(lightingShader.program, "lightColor");
 
         camera = mylib::FPSCamera(
-            glm::vec3(0.0f, 0.0f, 3.0f),    // cameraPos
-            glm::vec3(0.0f, 1.0f, 0.0f));   // worldUp
+            glm::vec3(0.0f, 0.0f, 3.0f),  // cameraPos
+            glm::vec3(0.0f, 1.0f, 0.0f)); // worldUp
 
         // mouse setup
         glfwSetInputMode(window.getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -125,6 +125,10 @@ class myAppUsingCameraClass : public mylib::App
         lastX = xpos;
         lastY = ypos;
         camera.processMouseMovement(xoffset, yoffset);
+
+        std::cout << xoffset << ", " << yoffset
+                  << "\tlast: (" << lastX << ", " << lastY << ")"
+                  << "\tpos: (" << xpos << ", " << ypos << ")" << std::endl;
 
         // W - key press
         if (glfwGetKey(window.getWindow(), GLFW_KEY_W) == GLFW_PRESS)
@@ -201,6 +205,7 @@ class myAppUsingCameraClass : public mylib::App
   private:
 };
 
+/*
 class myApp : public mylib::App
 {
   public:
@@ -268,6 +273,7 @@ class myApp : public mylib::App
 
     void update(double time) override
     {
+        std::cout << "time: " << time << std::endl;
         deltaTime = time - lastFrameTime;
         lastFrameTime = time;
         cameraSpeed = 0.5f * deltaTime;
@@ -285,6 +291,10 @@ class myApp : public mylib::App
         cameraFront.y = std::sin(glm::radians(pitch));
         cameraFront.z = std::cos(glm::radians(pitch)) * std::sin(glm::radians(yaw));
         cameraFront = glm::normalize(cameraFront);
+
+        std::cout << xoffset << ", " << yoffset
+                  << "\tlast: (" << lastX << ", " << lastY << ")"
+                  << "\tpos: (" << xpos << ", " << ypos << ")" << std::endl;
 
         // W - key press
         if (glfwGetKey(window.getWindow(), GLFW_KEY_W) == GLFW_PRESS)
@@ -380,6 +390,7 @@ class myApp : public mylib::App
 
   private:
 };
+*/
 
 int main(const int argc, const char *const argv[])
 {

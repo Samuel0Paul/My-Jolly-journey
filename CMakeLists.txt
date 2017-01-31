@@ -17,6 +17,7 @@ set(exe06 "app_06.app")
 set(exe07 "app_07.app")
 set(exe08 "app_08.app")
 set(exeUnderstaningCamera "app_understandingCamera.app")
+set(exe09 "app_09.app")
 
 find_package(PkgConfig)
 pkg_check_modules(GTKMM gtkmm-3.0)
@@ -25,7 +26,8 @@ find_package(GLEW REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(glm REQUIRED)
-find_package(Boost)
+find_package(Boost REQUIRED)
+find_package(tinyobjloader REQUIRED)
 
 set(SOIL_INCLUDE_DIR "/usr/include/SOIL")
 set(SOIL_LIBRARY "SOIL")
@@ -52,6 +54,7 @@ set(ALL_LIBS
 
 link_directories(
         ${GTKMM_LIBRARY_DIRS}
+        ${TINYOBJLOADER_LIBRARY_DIRS}
 )
 
 message(STATUS "INC DIR: \t" ${ALL_INCLUDE_DIR})
@@ -94,6 +97,9 @@ add_executable(${exeUnderstaningCamera} ./understanding_camera/main.cpp)
 target_include_directories(${exeUnderstaningCamera} PUBLIC ${ALL_INCLUDE_DIR})
 target_link_libraries(${exeUnderstaningCamera} PUBLIC ${ALL_LIBS})
 
+add_executable(${exe09} ./09/main.cpp)
+target_include_directories(${exe09} PUBLIC ${ALL_INCLUDE_DIR} ${TINYOBJLOADER_INCLUDE_DIRS})
+target_link_libraries(${exe09} PUBLIC ${ALL_LIBS} ${TINYOBJLOADER_LIBRARIES})
 
 
 # TESTS 

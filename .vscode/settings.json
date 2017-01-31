@@ -5,6 +5,30 @@
     "window.showFullPath": true,
     "files.associations": {
         "*h*h*harray": "cpp",
-        "array": "cpp"
+        "array": "cpp",
+        "cstdlib": "cpp",
+        "*h*h*h*h*h*h*h*hcstddef": "cpp",
+        "cstddef": "cpp",
+        "exception": "cpp",
+        "cwchar": "cpp",
+        "cctype": "cpp",
+        "utility": "cpp",
+        "*h*hcwctype": "cpp",
+        "clocale": "cpp",
+        "initializer_list": "cpp",
+        "*htype_traits": "cpp",
+        "cwctype": "cpp",
+        "*hppcmath": "cpp",
+        "memory_resource": "cpp",
+        "*h*hpprandom": "cpp",
+        "new": "cpp",
+        "*h*h*hpp*hpp*hpp*hpp*hpp*hpp*hpp*hpptypeinfo": "cpp",
+        "*h*hpp*hpp*hpp*hpp*hppctime": "cpp",
+        "ctime": "cpp",
+        "cstring": "cpp",
+        "*hpp*hpp*hpp*hpp*hpp*hpp*hpp*hpp*hpp*h*hpp*hpp*hpp*hpp*hpp*ipp*ipp*ipp*ipp*ipp*ipp*ipp*hpp*hppcstdio": "cpp",
+        "*hpp*hpp*hpp*hppcstdint": "cpp",
+        "csignal": "cpp",
+        "*hpp*hpp*hpp*hppcstdarg": "cpp"
     }
 }

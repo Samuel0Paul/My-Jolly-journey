@@ -192,7 +192,6 @@ class CameraController
         mylib::Window *window = nullptr) : camera(std::move(camera)),
                                            window(window)
     {
-        std::cout << "construct" << std::endl;
         if (window != nullptr)
         {
             // for keyboard
@@ -218,8 +217,6 @@ class CameraController
         if (window != nullptr)
         {
             this->deltaTime = time - lastFrameTime;
-            std::clog << "delta: " << deltaTime << "\tLFT: " << lastFrameTime
-                      << std::endl;
             this->lastFrameTime = time;
 
             // W - key press
@@ -249,19 +246,13 @@ class CameraController
     {
         if (window != nullptr)
         {
-            std::cout << "BEFORE\t\t" << this->xoffset << ", " << this->yoffset
-                      << "\tlast: (" << this->lastX << ", " << this->lastY << ")"
-                      << "\tpos: (" << this->xpos << ", " << this->ypos << ")" << std::endl;
             glfwGetCursorPos(window->getWindow(), &this->xpos, &this->ypos);
             this->xoffset = static_cast<GLfloat>(this->xpos - this->lastX);
             // reversed y cord, botton to top
             this->yoffset = static_cast<GLfloat>(this->lastY - this->ypos);
-
-            std::cout << this->xoffset << ", " << this->yoffset
-                      << "\tlast: (" << this->lastX << ", " << this->lastY << ")"
-                      << "\tpos: (" << this->xpos << ", " << this->ypos << ")" << std::endl;
             this->lastX = static_cast<GLfloat>(this->xpos);
             this->lastY = static_cast<GLfloat>(this->ypos);
+
             camera->processMouseMovement(this->xoffset, this->yoffset);
         }
     }

@@ -77,20 +77,20 @@ class myApp : public mylib::App
     {
         lightingShader = mylib::Shader({
             std::make_pair(
-                "C:\\Users\\Samuel Vishesh Paul\\Documents\\GitHub\\My-Jolly-journey\\07/07.vertex.glsl",
+                "C:/Users/Samuel Vishesh Paul/Documents/GitHub/My-Jolly-journey/07/07.vertex.glsl",
                 GL_VERTEX_SHADER),
             std::make_pair(
                 //"/home/sam/workspace/cpp/ogl_playground/07/07.fragment.glsl",
-                "C:\\Users\\Samuel Vishesh Paul\\Documents\\GitHub\\My-Jolly-journey\\09\\ambientLighting.fragment.glsl",
+                "C:/Users/Samuel Vishesh Paul/Documents/GitHub/My-Jolly-journey/09/ambientLighting.fragment.glsl",
                 GL_FRAGMENT_SHADER),
         });
         lightSrcShader = mylib::Shader({
             std::make_pair(
-                "C:\\Users\\Samuel Vishesh Paul\\Documents\\GitHub\\My-Jolly-journey\\07.vertex.glsl",
+                "C:/Users/Samuel Vishesh Paul/Documents/GitHub/My-Jolly-journey/07/07.vertex.glsl",
                 GL_VERTEX_SHADER),
             std::make_pair(
                 //"/home/sam/workspace/cpp/ogl_playground/07/07.fragment.glsl",
-                "C:\\Users\\Samuel Vishesh Paul\\Documents\\GitHub\\My-Jolly-journey\\09/lightSrc.fragment.glsl",
+                "C:/Users/Samuel Vishesh Paul/Documents/GitHub/My-Jolly-journey/09/lightSrc.fragment.glsl",
                 GL_FRAGMENT_SHADER),
         });
 

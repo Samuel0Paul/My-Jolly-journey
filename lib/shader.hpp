@@ -68,7 +68,7 @@ public:
                     glGetShaderInfoLog(shader_id, 512, NULL, infoLog);
                     std::cerr << "ERROR: (" << __PRETTY_FUNCTION__ << ") "
                               << "shader compilation error, Log:\n" << infoLog << std::endl;
-                    std::exit(EXIT_FAILURE);
+					throw std::runtime_error("shader compilation error");
                 }
 
                 glAttachShader(this->program, shader_id);

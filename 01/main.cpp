@@ -133,11 +133,11 @@ int main(void)
     glGenVertexArrays(1, &VAO);
 
     GLuint vertex_shader = mylib::compileShader(
-        "/home/sam/workspace/cpp/ogl_playground/01/simple.vertex.glsl",
+        "C:\\Users\\Samuel Vishesh Paul\\Documents\\GitHub\\My-Jolly-journey\\01/simple.vertex.glsl",
         GL_VERTEX_SHADER
     );
     GLuint frag_shader = mylib::compileShader(
-        "/home/sam/workspace/cpp/ogl_playground/01/simple.fragment.glsl",
+        "C:\\Users\\Samuel Vishesh Paul\\Documents\\GitHub\\My-Jolly-journey\\01\\simple.fragment.glsl",
         GL_FRAGMENT_SHADER
     );
     GLuint shader_program = mylib::linkShaderProgram(

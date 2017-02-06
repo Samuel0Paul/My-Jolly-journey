@@ -1,12 +1,18 @@
 #undef _NDEBUG
 
+#define WIN32
+
 #include "../lib/mylib.hpp"
 #include "../lib/camera.hpp"
 
 #include <epoxy/gl.h>
+#ifdef _WIN32
+#include <epoxy\wgl.h>
+#else
 #include <epoxy/glx.h>
+#endif
 
-#include <SOIL/SOIL.h>
+#include <SOIL.h>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
@@ -71,20 +77,20 @@ class myApp : public mylib::App
     {
         lightingShader = mylib::Shader({
             std::make_pair(
-                "/home/sam/workspace/cpp/ogl_playground/07/07.vertex.glsl",
+                "C:\\Users\\Samuel Vishesh Paul\\Documents\\GitHub\\My-Jolly-journey\\07/07.vertex.glsl",
                 GL_VERTEX_SHADER),
             std::make_pair(
                 //"/home/sam/workspace/cpp/ogl_playground/07/07.fragment.glsl",
-                "/home/sam/workspace/cpp/ogl_playground/09/ambientLighting.fragment.glsl",
+                "C:\\Users\\Samuel Vishesh Paul\\Documents\\GitHub\\My-Jolly-journey\\09\\ambientLighting.fragment.glsl",
                 GL_FRAGMENT_SHADER),
         });
         lightSrcShader = mylib::Shader({
             std::make_pair(
-                "/home/sam/workspace/cpp/ogl_playground/07/07.vertex.glsl",
+                "C:\\Users\\Samuel Vishesh Paul\\Documents\\GitHub\\My-Jolly-journey\\07.vertex.glsl",
                 GL_VERTEX_SHADER),
             std::make_pair(
                 //"/home/sam/workspace/cpp/ogl_playground/07/07.fragment.glsl",
-                "/home/sam/workspace/cpp/ogl_playground/09/lightSrc.fragment.glsl",
+                "C:\\Users\\Samuel Vishesh Paul\\Documents\\GitHub\\My-Jolly-journey\\09/lightSrc.fragment.glsl",
                 GL_FRAGMENT_SHADER),
         });
 
@@ -203,9 +209,19 @@ class myApp : public mylib::App
 
 int main(const int argc, const char *const argv[])
 {
-    mylib::Window wind;
-    myApp app(std::move(wind));
-    app.run(app);
+	try
+	{
+		mylib::Window wind;
+		myApp app(std::move(wind));
+		app.run(app);
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		std::cin.get();
+		std::exit(EXIT_FAILURE);
+	}
 
+	std::cin.get();
     std::exit(EXIT_SUCCESS);
 }

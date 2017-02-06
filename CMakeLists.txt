@@ -29,7 +29,12 @@ find_package(glm REQUIRED)
 find_package(Boost REQUIRED)
 find_package(tinyobjloader REQUIRED)
 
-set(SOIL_INCLUDE_DIR "/usr/include/SOIL")
+if(UNIX)
+        set(SOIL_INCLUDE_DIR "/usr/include/SOIL")
+elseif(WIN32)
+        set(SOIL_INCLUDE_DIR "C:/Program Files/SOIL/include")
+endif(UNIX)
+
 set(SOIL_LIBRARY "SOIL")
 
 set(ALL_INCLUDE_DIR 
@@ -41,6 +46,10 @@ set(ALL_INCLUDE_DIR
 
         ${GTKMM_INCLUDE_DIRS}
 )
+
+if(WIN32)
+        set(ALL_INCLUDE_DIR ${ALL_INCLUDE_DIR} "C:/Program Files/epoxy/include")
+endif(WIN32)
 
 set(ALL_LIBS 
         ${OPENGL_LIBRARY}

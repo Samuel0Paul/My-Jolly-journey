@@ -2,7 +2,11 @@
 #define __MYLIB_HPP__
 
 #include <epoxy/gl.h>
+#ifdef _WIN32
+#include <epoxy\wgl.h>
+#else
 #include <epoxy/glx.h>
+#endif
 #include <epoxy/egl.h>
 
 #include <GLFW/glfw3.h>
@@ -52,7 +56,7 @@ public:
         if (!glfwInit()) {
             std::cerr << "ERROR: (" << __PRETTY_FUNCTION__ << ") glfwInit() returned error"
                       << std::endl;
-            std::exit(EXIT_FAILURE);
+			throw std::runtime_error("glfwInit() returned error");
         }
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
@@ -63,7 +67,7 @@ public:
             std::cerr << "ERROR: (" << __PRETTY_FUNCTION__
                       << ") glfwCreateWindow() returned NULL"
                       << std::endl;
-            std::exit(EXIT_FAILURE);
+			throw std::runtime_error("glfwCreateWindow() returned NULL");
         }
         glfwSetKeyCallback(_windowHndl, mylib::Window::key_callback);
         glfwSetInputMode(_windowHndl, GLFW_STICKY_KEYS, 1);
@@ -126,7 +130,7 @@ public:
     {
         if (app_addr == nullptr) {
             std::cerr << "add_addr = nullptr" << std::endl;
-            std::exit(EXIT_FAILURE);
+			throw std::runtime_error("app address is null");
         }
 
         mylib::App *app = reinterpret_cast<mylib::App*>(app_addr);

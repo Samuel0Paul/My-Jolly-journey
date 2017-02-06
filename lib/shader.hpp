@@ -7,9 +7,18 @@
 #include <iostream>
 #include <utility>
 #include <vector>
+#include <stdexcept>
 
 #include <epoxy/gl.h>
+#ifdef _WIN32
+#include <epoxy\wgl.h>
+#else
 #include <epoxy/glx.h>
+#endif
+
+#ifdef _WIN32
+#define __PRETTY_FUNCTION__ __FUNCSIG__
+#endif
 
 namespace mylib
 {
@@ -72,7 +81,7 @@ public:
                 glGetProgramInfoLog(this->program, 512, NULL, infoLog);
                 std::cerr << "ERROR: (" << __PRETTY_FUNCTION__ << ") "
                           << "shader prog linker error, Log:\n" << infoLog << std::endl;
-                std::exit(EXIT_FAILURE);
+				throw std::runtime_error("shader prog linker error");
             }
 
             // delete shader objs in Gdev
@@ -83,7 +92,7 @@ public:
         } catch (std::ifstream::failure e) {
             std::cerr << "ERROR: (" << __PRETTY_FUNCTION__ << ") file not read successfully"
                       << ", e.what(): " << e.what() << std::endl;
-            std::exit(EXIT_FAILURE);
+			throw std::runtime_error("GLSL file not read successfully");
         }
     }
 

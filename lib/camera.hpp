@@ -8,7 +8,11 @@
 #include <cmath>
 
 #include <epoxy/gl.h>
+#ifdef _WIN32
+#include <epoxy\wgl.h>
+#else
 #include <epoxy/glx.h>
+#endif
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -212,7 +216,7 @@ class CameraController
         cc.updateMousePosition(time);
     }
 
-    virtual void __attribute__((optimize("O0"))) updateKeyboard(double time)
+    virtual void updateKeyboard(double time)
     {
         if (window != nullptr)
         {
@@ -242,7 +246,7 @@ class CameraController
         }
     }
 
-    virtual void __attribute__((optimize("O0"))) updateMousePosition(double time)
+    virtual void updateMousePosition(double time)
     {
         if (window != nullptr)
         {

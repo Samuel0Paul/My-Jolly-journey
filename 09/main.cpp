@@ -1,6 +1,10 @@
+#ifdef _DEBUG
 #undef _NDEBUG
-
-#define WIN32
+#undef NDEBUG
+#else
+#define _NDEBUG
+#define NDEBUG
+#endif
 
 #include "../lib/mylib.hpp"
 #include "../lib/camera.hpp"

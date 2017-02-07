@@ -1,6 +1,14 @@
 #ifndef __MYLIB_CAMERA_HPP__
 #define __MYLIB_CAMERA_HPP__
 
+#ifdef _DEBUG
+#undef _NDEBUG
+#undef NDEBUG
+#else
+#define _NDEBUG
+#define NDEBUG
+#endif
+
 #include "./mylib.hpp"
 
 #include <iostream>

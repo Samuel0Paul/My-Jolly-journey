@@ -1,6 +1,14 @@
 #ifndef __MYLIB_SHADER_H__
 #define __MYLIB_SHADER_H__
 
+#ifdef _DEBUG
+#undef _NDEBUG
+#undef NDEBUG
+#else
+#define _NDEBUG
+#define NDEBUG
+#endif
+
 #include <string>
 #include <fstream>
 #include <sstream>

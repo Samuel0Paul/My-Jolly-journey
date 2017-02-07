@@ -1,6 +1,14 @@
 #ifndef __MYLIB_HPP__
 #define __MYLIB_HPP__
 
+#ifdef _DEBUG
+#undef _NDEBUG
+#undef NDEBUG
+#else
+#define _NDEBUG
+#define NDEBUG
+#endif
+
 #include <epoxy/gl.h>
 #ifdef _WIN32
 #include <epoxy\wgl.h>

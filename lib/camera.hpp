@@ -137,12 +137,17 @@ class Camera
     // Processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
     virtual void processMouseScroll(GLfloat yoffset)
     {
-        if (this->zoom >= 1.0f && this->zoom <= 45.0f)
+        /*if (this->zoom >= 1.0f && this->zoom <= 45.0f)
             this->zoom -= yoffset;
         if (this->zoom <= 1.0f)
             this->zoom = 1.0f;
         if (this->zoom >= 45.0f)
             this->zoom = 45.0f;
+			*/
+		yoffset *= this->mouseSensitivity;
+		this->position.y += yoffset;
+
+		this->updateCameraVectors();
     }
 
   private:
@@ -197,7 +202,8 @@ class CameraController
     Camera *camera;
 
     double xpos{0}, ypos{0}, lastFrameTime{0}, deltaTime{0};
-    volatile GLfloat lastX{0}, lastY{0}, xoffset{0}, yoffset{0};
+	volatile GLfloat lastX{ 0 }, lastY{ 0 }, xoffset{ 0 }, yoffset{ 0 };
+	static double sxoffset, syoffset;
 
     CameraController(
         Camera *camera = nullptr,
@@ -215,6 +221,9 @@ class CameraController
             glfwGetCursorPos(window->getWindow(), &xpos, &ypos);
             lastX = static_cast<GLfloat>(xpos);
             lastY = static_cast<GLfloat>(ypos);
+
+			// for scroll
+			glfwSetScrollCallback(window->getWindow(), (GLFWscrollfun)scroll_callback);
         }
     }
 
@@ -222,6 +231,7 @@ class CameraController
     {
         cc.updateKeyboard(time);
         cc.updateMousePosition(time);
+		cc.updateMouseScroll(time);
     }
 
     virtual void updateKeyboard(double time)
@@ -269,11 +279,28 @@ class CameraController
         }
     }
 
-  protected:
+	virtual void updateMouseScroll(double time)
+	{
+		// refer scroll_callback()
+		camera->processMouseScroll(this->syoffset);
+		sxoffset = 0;
+		syoffset = 0;
+	}
+
+protected:
     mylib::Window *window{nullptr};
 
-  private:
+private:
+
+	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+	{
+		sxoffset = xoffset;
+		syoffset = yoffset;
+	}
 };
+
+double CameraController::sxoffset = 0;
+double CameraController::syoffset = 0;
 
 } // namespace mylib
 

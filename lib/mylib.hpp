@@ -36,6 +36,9 @@
 namespace mylib
 {
 
+#define ML_BUFFER_OFFSET(idx) \
+			static_cast<const GLvoid*>(static_cast<char*>(0) + (idx))
+
 class Window
 {
 public:

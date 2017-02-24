@@ -299,8 +299,13 @@ private:
 	}
 };
 
+#if _WIN32
+__declspec(selectany) double CameraController::sxoffset = 0;
+__declspec(selectany) double CameraController::syoffset = 0;
+#else
 double CameraController::sxoffset = 0;
 double CameraController::syoffset = 0;
+#endif
 
 } // namespace mylib
 

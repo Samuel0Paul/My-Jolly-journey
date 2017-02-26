@@ -158,9 +158,6 @@ public:
 		if (key_p == KEY::tapped)
 			isSpotlightOn = !isSpotlightOn;
 
-		// the Code below is responsible for updating light pos from keyboard keystrokes lol
-		// read along n follow tanya :P
-
 		// light Src move
 		if (key_space != KEY::pressed) {
 			cameraController.update(cameraController, time);

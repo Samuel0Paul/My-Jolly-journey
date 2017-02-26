@@ -183,21 +183,26 @@ public:
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 		activeShader->use();
-		glUniformMatrix4fv(glGetUniformLocation(activeShader->program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-		glUniformMatrix4fv(glGetUniformLocation(activeShader->program, "view"), 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(glGetUniformLocation(activeShader->program, "projection"), 
+			1, GL_FALSE, glm::value_ptr(projection));
+		glUniformMatrix4fv(glGetUniformLocation(activeShader->program, "view"), 
+			1, GL_FALSE, glm::value_ptr(view));
 		glBindVertexArray(cubeVAO);
 		glBindTexture(GL_TEXTURE_2D, cubeTex);
 		model = glm::translate(glm::mat4(), glm::vec3(-1.0f, 0.0f + 0.0001f, -1.0f));
-		glUniformMatrix4fv(glGetUniformLocation(activeShader->program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(glGetUniformLocation(activeShader->program, "model"), 
+			1, GL_FALSE, glm::value_ptr(model));
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		model = glm::translate(glm::mat4(), glm::vec3(2.0f, 0.0f + 0.0001f, 0.0f));
-		glUniformMatrix4fv(glGetUniformLocation(activeShader->program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(glGetUniformLocation(activeShader->program, "model"), 
+			1, GL_FALSE, glm::value_ptr(model));
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		// Floor
 		glBindVertexArray(planeVAO);
 		glBindTexture(GL_TEXTURE_2D, floorTex);
 		model = glm::translate(glm::mat4(), glm::vec3(0));
-		glUniformMatrix4fv(glGetUniformLocation(activeShader->program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(glGetUniformLocation(activeShader->program, "model"), 
+			1, GL_FALSE, glm::value_ptr(model));
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glBindVertexArray(0);
 	}

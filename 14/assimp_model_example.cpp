@@ -22,7 +22,7 @@ public:
 		released,
 		tapped
 	} key_p, key_space;
-	int key{ 0 };
+	int key_status{ 0 };
 
 	GLuint lightSrcVAO{ 0 }, lightSrcVBO{ 0 };
 	std::vector<GLfloat> lightSrcVertices = {
@@ -138,25 +138,28 @@ public:
 		deltaTime -= time;
 
 		// key p 
-		key = glfwGetKey(window.getWindow(), GLFW_KEY_P);
-		if (key == GLFW_RELEASE && key_p == KEY::pressed)
+		key_status = glfwGetKey(window.getWindow(), GLFW_KEY_P);
+		if (key_status == GLFW_RELEASE && key_p == KEY::pressed)
 			key_p = KEY::tapped;
-		else if (key == GLFW_RELEASE && key_p != KEY::pressed)
+		else if (key_status == GLFW_RELEASE && key_p != KEY::pressed)
 			key_p = KEY::released;
-		else if (key == GLFW_PRESS)
+		else if (key_status == GLFW_PRESS)
 			key_p = KEY::pressed;
 		// key space
-		key = glfwGetKey(window.getWindow(), GLFW_KEY_SPACE);
-		if (key == GLFW_RELEASE && key_space == KEY::pressed)
+		key_status = glfwGetKey(window.getWindow(), GLFW_KEY_SPACE);
+		if (key_status == GLFW_RELEASE && key_space == KEY::pressed)
 			key_space = KEY::tapped;
-		else if (key == GLFW_RELEASE && key_space != KEY::pressed)
+		else if (key_status == GLFW_RELEASE && key_space != KEY::pressed)
 			key_space = KEY::released;
-		else if (key == GLFW_PRESS)
+		else if (key_status == GLFW_PRESS)
 			key_space = KEY::pressed;
 
 		// isSpotlightOn
 		if (key_p == KEY::tapped)
 			isSpotlightOn = !isSpotlightOn;
+
+		// the Code below is responsible for updating light pos from keyboard keystrokes lol
+		// read along n follow tanya :P
 
 		// light Src move
 		if (key_space != KEY::pressed) {
@@ -243,11 +246,21 @@ public:
 			pointLightPosition.y,
 			pointLightPosition.z);
 		glUniform3f(glGetUniformLocation(shader.program, "pointLight.ambient"),
-			0.05f, 0.05f, 0.05f);
+			// 0.05f, 0.05f, 0.05f);
+			(225.0f / 225.0f) * 0.05f,
+			(204.0f / 225.0f) * 0.05f,
+			(0.0f / 225.0f) * 0.05f);
 		glUniform3f(glGetUniformLocation(shader.program, "pointLight.diffuse"),
-			0.8f, 0.8f, 0.8f);
+			// 0.8f, 0.8f, 0.8f);
+			(225.0f / 225.0f) * 0.8f,
+			(204.0f / 225.0f) * 0.8f,
+			(0.0f / 225.0f) * 0.8f);
 		glUniform3f(glGetUniformLocation(shader.program, "pointLight.specular"),
-			1.0f, 1.0f, 1.0f);
+			// 1.0f, 1.0f, 1.0f);
+			225.0f / 225.0f,
+			204.0f / 225.0f,
+			0.0f / 225.0f);
+
 		glUniform1f(glGetUniformLocation(shader.program, "pointLight.constant"),
 			1.0f);
 		glUniform1f(glGetUniformLocation(shader.program, "pointLight.linear"),
@@ -295,7 +308,10 @@ public:
 		lightSrcShader.use();
 		glUniform3f(
 			glGetUniformLocation(lightSrcShader.program, "lightColor"),
-			1.0f, 1.0f, 1.0f);
+			//1.0f, 1.0f, 1.0f);
+			225.0f / 225.0f,
+			204.0f / 225.0f,
+			0.0f / 225.0f);
 		glUniformMatrix4fv(
 			glGetUniformLocation(lightSrcShader.program, "view"),
 			1, GL_FALSE, glm::value_ptr(view));

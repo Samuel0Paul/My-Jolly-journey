@@ -155,9 +155,9 @@ public:
 			static_cast<GLfloat>(window.width) / window.height,
 			0.1f, 100.0f);
 
-		if (glfwGetKey(window.getWindow(), GLFW_KEY_V) == GLFW_PRESS)
+		if (glfwGetKey(window.getWindow(), GLFW_KEY_1) == GLFW_PRESS)
 			option = 1;
-		else if (glfwGetKey(window.getWindow(), GLFW_KEY_B) == GLFW_PRESS)
+		else if (glfwGetKey(window.getWindow(), GLFW_KEY_2) == GLFW_PRESS)
 			option = 2;
 
 		switch (option)

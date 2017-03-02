@@ -223,8 +223,7 @@ void BleedingApp::render()
 
 	activeShader->use();
 	// Cubes
-	glBindVertexArray(cubeVAO);
-	glBindTexture(GL_TEXTURE_2D, cubeTexture);  
+	glBindVertexArray(cubeVAO); 
 	// We omit the glActiveTexture part since 
 	// TEXTURE0 is already the default active texture unit. 
 	// (a single sampler used in fragment is set to 0 as well by default)
